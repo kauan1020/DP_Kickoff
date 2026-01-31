@@ -1,6 +1,6 @@
 # Guia de Estudos: Plataforma de Dados para Engenheiro de Dados
 
-Kaká esta criando um repositório **didático** para quem quer aprender a montar uma **plataforma de dados** do zero, usando ferramentas **gratuitas e open source**. Aqui você vai simular um **datalake** local, com dados passando por quatro camadas: **Landing → Bronze → Silver → Gold**, tudo orquestrado pelo **Airflow**. O processamento das camadas (Bronze, Silver, Gold) pode ser feito com **Spark** (preferencial) ou com **Pandas** — Spark é mais comum em produção, mas configurar Spark com Airflow local pode ser mais trabalhoso; Pandas é uma alternativa válida e mais simples para começar.
+Um repositório **didático** para quem quer aprender a montar uma **plataforma de dados** do zero, usando ferramentas **gratuitas e open source**. Aqui você vai simular um **datalake** local, com dados passando por quatro camadas: **Landing → Bronze → Silver → Gold**, tudo orquestrado pelo **Airflow**. O processamento das camadas (Bronze, Silver, Gold) pode ser feito com **Spark** (preferencial) ou com **Pandas** — Spark é mais comum em produção, mas configurar Spark com Airflow local pode ser mais trabalhoso; Pandas é uma alternativa válida e mais simples para começar.
 
 Se você é iniciante ou vem de outras áreas e quer entender na prática como engenheiros de dados organizam pipelines, este guia foi feito para você. Cada seção explica o **porquê** das escolhas e traz um **passo a passo** para você seguir na ordem certa.
 
@@ -263,11 +263,6 @@ Seguir esta ordem mantém a **arquitetura** correta: cada camada só consome a a
 8. **DAG Gold**  
    DAG que lê da **Silver**, cria **tabelas de análise** e agregações (de preferência modelo **OBT**) e grava na **Gold**. Pasta `dags/gold/`, README em `dags/gold/README.md`.
 
-### Fase 5: Pipeline completo
-
-9. **Encadear tudo**  
-   Na DAG `pipeline_exemplo` (ou em uma DAG “master”), encadear as tasks na ordem: **extração → Landing → Bronze → Silver → Gold**, usando os Operators e DAGs que você criou. Assim o fluxo fica automatizado na ordem certa, com os padrões de arquitetura (Landing → Bronze → Silver → Gold, Hook isolado, Operator usando Hook).
-
 ---
 
 ## Estrutura do repositório
@@ -288,14 +283,14 @@ Cada pasta tem um **README** explicando o intuito e quais arquivos criar, de for
 Use como lista de progresso:
 
 - [ ] Ambiente: criar venv, ativar, instalar dependências (`requirements.txt` e, se for testar, `requirements-dev.txt`).
-- [ ] Processamento: escolher **Spark** (preferencial; pode exigir Dockerfile customizado) ou **Pandas** (mais simples para começar) para as DAGs Bronze, Silver e Gold.
+- [ ] Spark local: instalar `pyspark` e configurar `SparkSession` com `master("local[*]")` nas DAGs que forem usar Spark.
 - [ ] Docker: ler `docker/README.md`, montar `docker-compose.yml` e subir o Airflow (obrigatório). MinIO é opcional.
 - [ ] Datalake: conferir pastas `landing`, `bronze`, `silver`, `gold` e ler `datalake/README.md`.
 - [ ] Hook da API: implementar ou usar o exemplo em `plugins/hooks/`.
 - [ ] Operator API → Landing: implementar ou usar o exemplo em `plugins/operators/`.
 - [ ] DAG de extração: DAG que usa o Operator e grava na Landing.
 - [ ] Testes: rodar e, se quiser, ampliar testes em `plugins/tests/`.
-- [ ] DAG Bronze: Landing → Upsert → Bronze (Spark preferencial, Pandas como alternativa).
+- [ ] DAG Bronze: Landing → Upsert → Bronze (Spark ou Pandas).
 - [ ] DAG Silver: Bronze → modelagem (Data Vault, 3NF ou Star Schema) → Silver.
 - [ ] DAG Gold: Silver → OBT/agregados → Gold.
 - [ ] Pipeline completo: encadear extração → Bronze → Silver → Gold em uma DAG (ex.: `pipeline_exemplo`).
