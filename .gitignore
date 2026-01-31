@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+.env
+.env.local
+
+# Airflow
+airflow.db
+airflow.cfg
+logs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Datalake (dados gerados - opcional: remova se quiser versionar exemplos)
+# datalake/landing/**/*.json
+# datalake/bronze/**/*.parquet
+# datalake/silver/**/*
+# datalake/gold/**/*
+
+# Testes
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Docker
+*.log

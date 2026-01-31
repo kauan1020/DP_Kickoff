@@ -1,0 +1,14 @@
+# Dependências do projeto (guia de estudos - plataforma de dados)
+# Instale com: pip install -r requirements.txt
+
+# Orquestração
+## apache-airflow>=2.7.0
+
+# Integração HTTP (Hook/Operator de API)
+requests>=2.28.0
+
+# Processamento (pipelines Bronze/Silver/Gold): Spark é preferencial, Pandas é alternativa mais simples
+# Se usar Spark (pode ser mais difícil de configurar com Airflow em Docker):
+# pyspark>=3.4.0
+# Se usar Pandas (mais fácil para começar; pyarrow para ler/gravar Parquet):
+# pyarrow>=14.0.0
